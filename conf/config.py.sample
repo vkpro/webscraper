@@ -1,0 +1,6 @@
+# Remove ".sample" in the filename to use config file
+
+PAGES = 1                                            # page count for the scraping 
+XLSX_FILEPATH = "results.xlsx"                       # xlsx filepath to save a result 
+CSV_FILEPATH = "results.csv"                         # csv filepath to save a result
+SLACK_TOKEN = "xxxx-xxx-xxxx"                        # slack token for notification 
