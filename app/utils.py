@@ -4,7 +4,9 @@ import os
 
 from openpyxl import Workbook, load_workbook
 from slacker import Slacker
-from conf.config import *
+
+XLSX_FILEPATH = "./results.xlsx"
+CSV_FILEPATH = "./results.csv"
 
 
 class Utils(object):
@@ -79,4 +81,4 @@ class Utils(object):
             if not Utils.is_string_in_csv(result['title']):
                 msg = "Title: {} \nDescription: {} \nPrice: {} \nLink: {} \n Posted: {}" \
                     .format(result['title'], result['description'], result['price'], result['link'], result['posted'])
-                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=_slack_token)
+                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=slack_token)
