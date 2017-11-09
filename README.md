@@ -12,10 +12,11 @@ The results might be saved into csv/xlsx files or send as a slack notification.
 
 Run `pip install -r requirements.txt`  
 Make sure Google Chrome Driver, Mozilla GeckoDriver or PhantomJS are available on your $PATH (or %PATH% on Windows)  
+For slack notification add `SLACK_TOKEN` to environment variables with correct value  
 
 ## Usage
 
-Check `config.py` has correct settings and run from the project directory `pytest`  
+Run from the project directory `pytest`  
 
 ## Project Goals
 

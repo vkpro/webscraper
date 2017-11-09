@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
+from selenium.webdriver.chrome.options import Options
 
 from selene import browser
 
@@ -23,16 +24,19 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="module")
 def browser_type(request):
+    """Browser type to run"""
     return request.config.getoption("--browser")
 
 
 @pytest.fixture(scope="module")
 def remote_wd(request):
+    """URL of of remote wd e.g. http://127.0.0.1:4444/wd/hub"""
     return request.config.getoption("--remote_wd")
 
 
 @pytest.fixture(scope="module")
 def wd(request, browser_type, remote_wd):
+    """Webdriver object"""
     if browser_type == "firefox":
         wd = webdriver.Firefox()
     elif browser_type == "chrome":
@@ -48,7 +52,9 @@ def wd(request, browser_type, remote_wd):
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
-    wd.maximize_window()
+
+    if browser_type != "rchrome":
+        wd.maximize_window()
 
     def fin():
         browser.quit()

@@ -6,6 +6,7 @@ from app.utils import Utils
 
 
 class TestsFreelancercom(object):
+    @pytest.mark.run_Freelancercom
     @pytest.mark.jenkins
     @pytest.mark.parametrize('keyword', ['Selenium', 'Scraping'])
     def test_send_new_jobs_to_slack(self, wd, keyword):

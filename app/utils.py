@@ -54,18 +54,26 @@ class Utils(object):
         wb.save(filepath)
 
     @staticmethod
-    def notify_slack(results, _slack_token=SLACK_TOKEN):
+    def notify_slack(results):
+        slack_token = os.getenv("SLACK_TOKEN")
+        if not slack_token:
+            return "SLACK_TOKEN not defined"
+
         # Send slack notification if new result
         for result in results:
             if not Utils.is_string_in_csv(result['title']):
                 msg = "Title: {} \nDescription: {} \nBids: {} \nPrice: {} \nDays: {} \nLink: {}" \
                     .format(result['title'], result['description'], result['bids'], result['price'], result['days'],
                             result['link'])
-                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=_slack_token)
+                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=slack_token)
 
     # TODO: Replace this method with ordered dict here
     @staticmethod
-    def notify_slack_upwork(results, _slack_token=SLACK_TOKEN):
+    def notify_slack_upwork(results):
+        slack_token = os.getenv("SLACK_TOKEN")
+        if not slack_token:
+            return "SLACK_TOKEN not defined"
+
         # Send slack notification if new result
         for result in results:
             if not Utils.is_string_in_csv(result['title']):
