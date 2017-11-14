@@ -45,5 +45,7 @@ tmtagsHistory
 
 *.csv
 *.xlsx
+test_tmp.py
 venv.bat
 tmp
+screens
