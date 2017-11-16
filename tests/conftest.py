@@ -75,6 +75,7 @@ def wd(request, browser_type, remote_wd):
     elif browser_type == "chrome":
         wd = EventFiringWebDriver(webdriver.Chrome(), WdListener())
     elif browser_type == "chrome-nogui":
+        # TODO: Add maximaze
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')

@@ -13,8 +13,9 @@ py==1.4.34
 pytest==3.2.1
 requests==2.18.4
 selene==1.0.0a12
-selenium==3.6.0
+selenium==3.7.0
 six==1.11.0
 slacker==0.9.60
 urllib3==1.22
 webdriver-manager==1.4.5
+
