@@ -32,13 +32,13 @@ class WdListener(AbstractEventListener):
         self.logger.info("Open {}".format(url))
 
     def before_find(self, by, value, driver):
-        self.logger.info("Finding '{}' by '{}'".format(value, by))
+        self.logger.debug("Finding '{}' by '{}'".format(value, by))
 
     def after_find(self, by, value, driver):
         self.logger.info("Found '{}' by '{}'".format(value, by))
 
     def before_click(self, element, driver):
-        self.logger.info('Clicking  by element')
+        self.logger.debug('Clicking  by element')
 
     def after_click(self, element, driver):
         self.logger.info('Element clicked')
@@ -71,28 +71,26 @@ def wd(request, browser_type, remote_wd):
     logger = logging.getLogger(__name__)
 
     if browser_type == "firefox":
-        # wd = webdriver.Firefox()
         wd = EventFiringWebDriver(webdriver.Firefox(), WdListener())
-        logger.info("Browser {} started".format(browser_type))
     elif browser_type == "chrome":
-        # wd = webdriver.Chrome()
         wd = EventFiringWebDriver(webdriver.Chrome(), WdListener())
-        logger.info("Browser {} started".format(browser_type))
-    elif browser_type == "phantomjs":
-        # wd = webdriver.PhantomJS()
-        wd = EventFiringWebDriver(webdriver.PhantomJS(), WdListener())
-        logger.info("Browser {} started".format(browser_type))
+    elif browser_type == "chrome-nogui":
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--disable-web-security')
+        wd = webdriver.Chrome(chrome_options=options)
+        wd = EventFiringWebDriver(wd, WdListener())
     elif browser_type == "rfirefox":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "firefox"})
-    elif browser_type == "rphantomjs":
-        wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "phantomjs"})
     elif browser_type == "rchrome":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
 
-    if browser_type != 'rchrome' and 'chrome':
-        wd.maximize_window()
+    logger.info("Browser {} started".format(browser_type))
+    wd.maximize_window()
 
     def fin():
         browser.quit()
