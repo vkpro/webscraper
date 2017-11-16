@@ -37,7 +37,7 @@
     },
 
     "loggers": {
-        "my_module": {
+        "freelancercom": {
             "level": "ERROR",
             "handlers": ["console"],
             "propagate": "no"

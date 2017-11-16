@@ -11,9 +11,9 @@ CSV_FILEPATH = "./results.csv"
 
 class Utils(object):
     @staticmethod
-    def send_msg_to_slack(channel=None, _string='', slack_token=''):
+    def send_msg_to_slack(_channel=None, _msg='', slack_token=''):
         slack = Slacker(slack_token)
-        slack.chat.post_message(channel, _string)
+        slack.chat.post_message(_channel, _msg)
 
     @staticmethod
     def is_string_in_csv(_string, filepath=CSV_FILEPATH):
@@ -56,7 +56,7 @@ class Utils(object):
         wb.save(filepath)
 
     @staticmethod
-    def notify_slack(results):
+    def notify_slack(channel, results):
         slack_token = os.getenv("SLACK_TOKEN")
         if not slack_token:
             return "SLACK_TOKEN not defined"
@@ -67,11 +67,11 @@ class Utils(object):
                 msg = "Title: {} \nDescription: {} \nBids: {} \nPrice: {} \nDays: {} \nLink: {}" \
                     .format(result['title'], result['description'], result['bids'], result['price'], result['days'],
                             result['link'])
-                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=slack_token)
+                Utils.send_msg_to_slack(_channel=channel, _msg=msg, slack_token=slack_token)
 
     # TODO: Replace this method with ordered dict here
     @staticmethod
-    def notify_slack_upwork(results):
+    def notify_slack_upwork(channel, results):
         slack_token = os.getenv("SLACK_TOKEN")
         if not slack_token:
             return "SLACK_TOKEN not defined"
@@ -81,4 +81,4 @@ class Utils(object):
             if not Utils.is_string_in_csv(result['title']):
                 msg = "Title: {} \nDescription: {} \nPrice: {} \nLink: {} \n Posted: {}" \
                     .format(result['title'], result['description'], result['price'], result['link'], result['posted'])
-                Utils.send_msg_to_slack(channel="#flcom_web-scraping", _string=msg, slack_token=slack_token)
+                Utils.send_msg_to_slack(_channel=channel, _msg=msg, slack_token=slack_token)

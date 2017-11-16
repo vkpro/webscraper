@@ -33,7 +33,7 @@ class TestsUpwork(object):
                                  'link': link,
                                  'posted': posted})
 
-        Utils.notify_slack_upwork(jobs_results)
+        Utils.notify_slack_upwork('jobs', jobs_results)
         Utils.write_csv(jobs_results)
 
 
