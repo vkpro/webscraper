@@ -1,6 +1,10 @@
 from selene.api import *
 from selene.browser import open_url
 from selenium.webdriver.common.by import By
+import logging
+from time import sleep
+
+logger = logging.getLogger(__name__)
 
 
 class FreelancercomLocators(object):
@@ -15,24 +19,41 @@ class FreelancercomLocators(object):
 
 
 class FreelancerSearchPage(object):
+
     @staticmethod
     def search_job(keyword):
         s('#keyword-input').set_value(keyword).press_enter()
+        sleep(1)
         jobs_el = ss(FreelancercomLocators.JOB_LIST)
         return jobs_el
 
     @staticmethod
     def get_jobs_from_page(jobs_el):
         jobs_info = []
+
         for job in jobs_el:
-            title = job.s(FreelancercomLocators.JOB_TITLE).text
-            description = job.s(FreelancercomLocators.JOB_DESCRIPTION).text
+
+            def get_text(element):
+                # TODO: Try to use Selene instead this
+                if element:
+                    return element[0].text
+                else:
+                    return None
+
+            title = job.ss(FreelancercomLocators.JOB_TITLE)
+            title = get_text(title)
+            logging.debug('Title: {}'.format(title))
+
+            description = job.ss(FreelancercomLocators.JOB_DESCRIPTION)
+            description = get_text(description)
+            logging.debug('Description: {}'.format(description))
+
             price = job.ss(FreelancercomLocators.JOB_PRICE)
-            if price:
-                price = price[0].text
-            else:
-                price = None
-            bids = job.s(FreelancercomLocators.JOB_BIDS).text
+            price = get_text(price)
+
+            bids = job.ss(FreelancercomLocators.JOB_BIDS)
+            bids = get_text(bids)
+
             link = job.s(FreelancercomLocators.JOB_LINK).get_attribute('href')
             days = job.s(FreelancercomLocators.JOB_DAYS).text
 
