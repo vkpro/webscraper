@@ -84,13 +84,15 @@ def wd(request, browser_type, remote_wd):
         wd = EventFiringWebDriver(wd, WdListener())
     elif browser_type == "rfirefox":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "firefox"})
+        wd = EventFiringWebDriver(wd, WdListener())
     elif browser_type == "rchrome":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
 
     logger.info("Browser {} started".format(browser_type))
-    wd.maximize_window()
+    if browser_type != "rchrome":
+        wd.maximize_window()
 
     def fin():
         browser.quit()
