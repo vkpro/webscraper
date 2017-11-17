@@ -67,8 +67,6 @@ def remote_wd(request):
 @pytest.fixture(scope="module")
 def wd(request, browser_type, remote_wd):
     """Webdriver object"""
-    setup_logging()
-    logger = logging.getLogger(__name__)
 
     if browser_type == "firefox":
         wd = EventFiringWebDriver(webdriver.Firefox(), WdListener())
@@ -100,3 +98,6 @@ def wd(request, browser_type, remote_wd):
 
     request.addfinalizer(fin)
     browser.set_driver(wd)
+
+setup_logging()
+logger = logging.getLogger(__name__)
