@@ -80,15 +80,14 @@ def wd(request, browser_type, remote_wd):
         options.add_argument('--ignore-certificate-errors')
         options.add_argument('--disable-web-security')
         wd = webdriver.Chrome(chrome_options=options)
-        wd = EventFiringWebDriver(wd, WdListener())
     elif browser_type == "rfirefox":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "firefox"})
-        wd = EventFiringWebDriver(wd, WdListener())
     elif browser_type == "rchrome":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
 
+    wd = EventFiringWebDriver(wd, WdListener())
     logger.info("Browser {} started".format(browser_type))
     if browser_type != "rchrome":
         wd.maximize_window()
