@@ -12,7 +12,8 @@ The results might be saved into csv/xlsx files or send as a slack notification.
 
 Run `pip install -r requirements.txt`  
 Make sure Google Chrome Driver, Mozilla GeckoDriver or PhantomJS are available on your $PATH (or %PATH% on Windows)  
-For slack notification add `SLACK_TOKEN` to environment variables with correct value  
+For slack notification add [SLACK_TOKEN](https://api.slack.com/custom-integrations/legacy-tokens)
+to environment variables with correct value  
 
 ## Usage
 
