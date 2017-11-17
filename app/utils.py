@@ -1,12 +1,14 @@
 import argparse
 import csv
 import os
+import logging
 
 from openpyxl import Workbook, load_workbook
 from slacker import Slacker
 
 XLSX_FILEPATH = "./results.xlsx"
 CSV_FILEPATH = "./results.csv"
+logger = logging.getLogger(__name__)
 
 
 class Utils(object):
@@ -18,6 +20,7 @@ class Utils(object):
 
         slack = Slacker(slack_token)
         slack.chat.post_message(_channel, _msg)
+        logger.info("Sent message to slack channel '{}':\n '{}' ".format(_channel, _msg))
 
     @staticmethod
     def is_string_in_csv(_string, filepath=CSV_FILEPATH):
