@@ -69,9 +69,9 @@ def wd(request, browser_type, remote_wd):
     """Webdriver object"""
 
     if browser_type == "firefox":
-        wd = EventFiringWebDriver(webdriver.Firefox(), WdListener())
+        wd = webdriver.Firefox()
     elif browser_type == "chrome":
-        wd = EventFiringWebDriver(webdriver.Chrome(), WdListener())
+        wd = webdriver.Chrome()
     elif browser_type == "chrome-nogui":
         # TODO: Add maximaze
         options = webdriver.ChromeOptions()
@@ -86,6 +86,9 @@ def wd(request, browser_type, remote_wd):
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
+
+    if not wd:
+        raise RuntimeError("wd is not defined")
 
     wd = EventFiringWebDriver(wd, WdListener())
     logger.info("Browser {} started".format(browser_type))
