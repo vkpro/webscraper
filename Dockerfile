@@ -1,15 +1,8 @@
-FROM selenium/standalone-firefox:3.6.0-copper
+FROM jenkins/jenkins:lts
 MAINTAINER Vladimir Kharitoshkin <haritoshkin@mail.ru>
-
+# if we want to install via apt
 USER root
-
-RUN apt-get update && apt-get install -y python3-pip git
-RUN pip3 install --upgrade pip && \
-    pip3 install virtualenv
-RUN virtualenv /venv && \
-    . /venv/bin/activate && \
-	  pip3 install pip --upgrade && \
-	  pip3 install pytest
-
-RUN mkdir /webscraper
-COPY ./* /webscraper
+RUN apt-get update && apt-get install -y python3 python3-pip python3-virtualenv
+RUN pip install pytest
+# drop back to the regular jenkins user - good practice
+USER jenkins
