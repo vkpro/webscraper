@@ -15,7 +15,7 @@ class TestsFreelancercom(object):
         open_url("")
         jobs_el = FreelancerSearchPage.search_job(keyword)
         jobs_result = FreelancerSearchPage.get_jobs_from_page(jobs_el)
-        Utils.notify_slack('jobs', jobs_result)
+        Utils.send_results_to_slack('jobs', jobs_result)
         Utils.write_csv(jobs_result)
 
 
