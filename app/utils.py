@@ -19,7 +19,7 @@ class Utils(object):
             return "SLACK_TOKEN not defined"
 
         slack = Slacker(slack_token)
-        slack.chat.post_message(_channel, _msg)
+        slack.chat.post_message(_channel, str(_msg))
         logger.info("Sent message to slack channel '{}':\n '{}' ".format(_channel, _msg))
 
     @staticmethod
@@ -42,6 +42,7 @@ class Utils(object):
 
     @staticmethod
     def write_csv(data, filepath=CSV_FILEPATH, header=('title', 'description', 'price', 'bids', 'days', 'link')):
+        # TODO: Get rid of hardcode
         with open(filepath, 'a+', newline='', encoding='utf-8') as csvfile:
             filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
             filewriter.writerow(header)
@@ -51,6 +52,8 @@ class Utils(object):
     @staticmethod
     def write_xlsx(data, sheet_title='NewSheet', filepath=XLSX_FILEPATH,
                    header=('title', 'description', 'price', 'bids', 'days', 'link')):
+        # TODO: Do not create new sheet everytime 
+        # TODO: Get rid of hardcode
         try:
             wb = load_workbook(filepath)
         except FileNotFoundError:
@@ -63,21 +66,10 @@ class Utils(object):
         wb.save(filepath)
 
     @staticmethod
-    def notify_slack(channel, results):
+    def send_results_to_slack(channel, results):
         # Send slack notification if new result
+        # TODO: Use ordereddict
         for result in results:
-            if not Utils.is_string_in_csv(result['title']):
-                msg = "Title: {} \nDescription: {} \nBids: {} \nPrice: {} \nDays: {} \nLink: {}" \
-                    .format(result['title'], result['description'], result['bids'], result['price'], result['days'],
-                            result['link'])
-                Utils.send_msg_to_slack(_channel=channel, _msg=msg)
-
-    # TODO: Replace this method with ordered dict here
-    @staticmethod
-    def notify_slack_upwork(channel, results):
-        # Send slack notification if new result
-        for result in results:
-            if not Utils.is_string_in_csv(result['title']):
-                msg = "Title: {} \nDescription: {} \nPrice: {} \nLink: {} \n Posted: {}" \
-                    .format(result['title'], result['description'], result['price'], result['link'], result['posted'])
-                Utils.send_msg_to_slack(_channel=channel, _msg=msg)
+            if not Utils.is_string_in_csv(next(iter(result.values()))):
+                result = '\n'.join([' : '.join((k, str(result[k]))) for k in sorted(result, key=result.get, reverse=True)])
+                Utils.send_msg_to_slack(_channel=channel, _msg=result)
