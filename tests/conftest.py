@@ -12,6 +12,7 @@ from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEven
 def setup_logging(default_path='logging.json', default_level=logging.INFO, env_key='LOG_CFG'):
     """Setup logging configuration
     """
+    # TODO: Clean up log system
     path = default_path
     value = os.getenv(env_key, None)
     if value:
@@ -73,7 +74,6 @@ def wd(request, browser_type, remote_wd):
     elif browser_type == "chrome":
         wd = webdriver.Chrome()
     elif browser_type == "chrome-nogui":
-        # TODO: Add maximaze
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--disable-gpu')
@@ -84,6 +84,27 @@ def wd(request, browser_type, remote_wd):
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "firefox"})
     elif browser_type == "rchrome":
         wd = webdriver.Remote(remote_wd, desired_capabilities={"browserName": "chrome"})
+    elif browser_type == "selenoid_chrome":
+        capabilities = {
+            "browserName": "chrome",
+            "version": "63.0",
+            "enableVNC": True,
+            "enableVideo": True,
+            "screenResolution": "1280x1024x24"
+        }
+        wd = webdriver.Remote(
+            command_executor=remote_wd,
+            desired_capabilities=capabilities)
+    elif browser_type == "selenoid_firefox":
+        capabilities = {
+            "browserName": "firefox",
+            "version": "57.0",
+            "enableVNC": True,
+            "enableVideo": True
+        }
+        wd = webdriver.Remote(
+            command_executor=remote_wd,
+            desired_capabilities=capabilities)
     else:
         raise ValueError("Unrecognized browser %s" % browser_type)
 
@@ -92,8 +113,8 @@ def wd(request, browser_type, remote_wd):
 
     wd = EventFiringWebDriver(wd, WdListener())
     logger.info("Browser {} started".format(browser_type))
-    if browser_type != "rchrome":
-        wd.maximize_window()
+    wd.set_window_size(1280, 1024)
+    logger.info("Set window size 1280x1024")
 
     def fin():
         browser.quit()
