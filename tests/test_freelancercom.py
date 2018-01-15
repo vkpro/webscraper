@@ -8,7 +8,7 @@ from app.utils import Utils
 class TestsFreelancercom(object):
     @pytest.mark.run_Freelancercom
     @pytest.mark.jenkins
-    @pytest.mark.parametrize('keyword', ['Selenium', 'Scraping'])
+    @pytest.mark.parametrize('keyword', ['Selenium', ])
     def test_send_new_jobs_to_slack(self, wd, keyword):
         config.base_url = 'https://www.freelancer.com/jobs/regions/'
 
@@ -17,6 +17,7 @@ class TestsFreelancercom(object):
         jobs_result = FreelancerSearchPage.get_jobs_from_page(jobs_el)
         Utils.send_results_to_slack('jobs', jobs_result)
         Utils.write_csv(jobs_result)
+        Utils.write_xlsx(jobs_result)
 
 
 if __name__ == '__main__':

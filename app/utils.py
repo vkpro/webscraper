@@ -40,30 +40,36 @@ class Utils(object):
         _parser.add_argument('-p', '--pages', help='number of pages for scraping', default=1)
         return _parser
 
+    # TODO: Merge write methods
     @staticmethod
-    def write_csv(data, filepath=CSV_FILEPATH, header=('title', 'description', 'price', 'bids', 'days', 'link')):
-        # TODO: Get rid of hardcode
+    def write_csv(data, filepath=CSV_FILEPATH):
+        if not data:
+            logger.info("Nothing write to csv-file")
+            return None
         with open(filepath, 'a+', newline='', encoding='utf-8') as csvfile:
             filewriter = csv.writer(csvfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-            filewriter.writerow(header)
+            filewriter.writerow(data[0].keys())
             for row in data:
                 filewriter.writerow([value for value in row.values()])
+            logger.info("File {} saved".format(filepath))
 
     @staticmethod
-    def write_xlsx(data, sheet_title='NewSheet', filepath=XLSX_FILEPATH,
-                   header=('title', 'description', 'price', 'bids', 'days', 'link')):
+    def write_xlsx(data, sheet_title='NewSheet', filepath=XLSX_FILEPATH):
         # TODO: Do not create new sheet everytime 
-        # TODO: Get rid of hardcode
+        if not data:
+            logger.info("Nothing write to csv-file")
+            return None
         try:
             wb = load_workbook(filepath)
         except FileNotFoundError:
             wb = Workbook()
         ws = wb.create_sheet(sheet_title)
-        ws.append(header)
+        ws.append(list(data[0].keys()))
         if data:
             for item_info in data:
                 ws.append([value for value in item_info.values()])
         wb.save(filepath)
+        logger.info("File {} saved".format(filepath))
 
     @staticmethod
     def send_results_to_slack(channel, results):
@@ -75,7 +81,7 @@ class Utils(object):
 
             for k, v in result.items():
                 if k == "title":
-                    msg += "\n *{k}*: {v}".format(k=k, v=v)
+                    msg += "\n *{k}: {v}*".format(k=k, v=v)
                 else:
                     msg += "\n {k}: {v}".format(k=k, v=v)
         if msg:
