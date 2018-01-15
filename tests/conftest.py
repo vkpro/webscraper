@@ -36,7 +36,7 @@ class WdListener(AbstractEventListener):
         self.logger.debug("Finding '{}' by '{}'".format(value, by))
 
     def after_find(self, by, value, driver):
-        self.logger.info("Found '{}' by '{}'".format(value, by))
+        self.logger.debug("Found '{}' by '{}'".format(value, by))
 
     def before_click(self, element, driver):
         self.logger.debug('Clicking  by element')

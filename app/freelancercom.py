@@ -1,3 +1,4 @@
+import collections
 from selene.api import *
 from selene.browser import open_url
 from selenium.webdriver.common.by import By
@@ -57,12 +58,12 @@ class FreelancerSearchPage(object):
             link = job.s(FreelancercomLocators.JOB_LINK).get_attribute('href')
             days = job.s(FreelancercomLocators.JOB_DAYS).text
 
-            jobs_info.append({'title': title,
+            jobs_info.append(collections.OrderedDict({'title': title,
                               'description': description,
                               'price': price,
                               'bids': bids,
                               'link': link,
-                              'days': days})
+                              'days': days}))
         return jobs_info
 
     @staticmethod

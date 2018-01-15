@@ -67,9 +67,18 @@ class Utils(object):
 
     @staticmethod
     def send_results_to_slack(channel, results):
-        # Send slack notification if new result
-        # TODO: Use ordereddict
+        msg = ""
         for result in results:
-            if not Utils.is_string_in_csv(next(iter(result.values()))):
-                result = '\n'.join([' : '.join((k, str(result[k]))) for k in sorted(result, key=result.get, reverse=True)])
-                Utils.send_msg_to_slack(_channel=channel, _msg=result)
+            # Don't add duplicates
+            if Utils.is_string_in_csv(result.get("title")):
+                break
+
+            for k, v in result.items():
+                if k == "title":
+                    msg += "\n *{k}*: {v}".format(k=k, v=v)
+                else:
+                    msg += "\n {k}: {v}".format(k=k, v=v)
+        if msg:
+            Utils.send_msg_to_slack('jobs', msg)
+        else:
+            logger.info("Nothig sent to slack. Msg is empty")
