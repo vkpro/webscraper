@@ -60,7 +60,7 @@ class FreelancerSearchPage(object):
 
             jobs_info.append(collections.OrderedDict({'title': title,
                               'description': description,
-                              'price': price,
+                              'price': price, # TODO: Remove msg (Avg Bid)
                               'bids': bids,
                               'link': link,
                               'days': days}))
