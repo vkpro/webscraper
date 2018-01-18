@@ -21,8 +21,10 @@ def setup_logging(default_path='logging.json', default_level=logging.INFO, env_k
         with open(path, 'rt') as f:
             config = json.load(f)
         logging.config.dictConfig(config)
+        logging.info("Setup logging from config {}".format(path))
     else:
         logging.basicConfig(level=default_level)
+        logging.error("Lo{}".format(path))
 
 
 class WdListener(AbstractEventListener):
