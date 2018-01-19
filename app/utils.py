@@ -67,7 +67,7 @@ class Utils(object):
             for row in data:
                 if not Utils.is_string_in_csv(row.get('title'), file_name):
                     filewriter.writerow([value for value in row.values()])
-            logger.info("File {} saved".format(file_name))
+            logger.info("File {} saved".format(filepath))
 
     @staticmethod
     def write_xlsx(data, sheet_title='NewSheet', file_name=XLSX_FILE_NAME, dir_name=DIR_NAME):

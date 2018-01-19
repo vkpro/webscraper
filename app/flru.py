@@ -27,7 +27,7 @@ class FlruSearchPage(object):
         s(FlruLocators.SUBMIT).click()
 
     @staticmethod
-    def get_jobs_from_page():
+    def get_jobs_from_page(keyword):
         jobs_info = []
         job_list = ss(FlruLocators.JOB_LIST)
         if not job_list:
@@ -61,7 +61,8 @@ class FlruSearchPage(object):
                               'description': description,
                               'price': price,
                               'bids': bids,
-                              'link': link})
+                              'link': link,
+                              'keyword': keyword})
         return jobs_info
 
     @staticmethod

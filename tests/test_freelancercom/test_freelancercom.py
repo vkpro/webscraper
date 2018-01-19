@@ -5,12 +5,12 @@ from app.freelancercom import FreelancerSearchPage
 from app.utils import Utils
 
 CSV_FILE_NAME = "flcom_results.csv" 
-XLSX_FILE_NAME = "flcom_results.xlsx" 
+XLSX_FILE_NAME = "flcom_results.xlsx"
 
 class TestsFreelancercom(object):
     @pytest.mark.run_Freelancercom
     @pytest.mark.jenkins
-    @pytest.mark.parametrize('keyword', ['Selenium', ])
+    @pytest.mark.parametrize('keyword', ['Selenium', 'Scraping' ])
     def test_send_new_jobs_to_slack(self, wd, keyword):
         config.base_url = 'https://www.freelancer.com/jobs/regions/'
 
