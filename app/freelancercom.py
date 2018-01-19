@@ -20,7 +20,6 @@ class FreelancercomLocators(object):
 
 
 class FreelancerSearchPage(object):
-
     @staticmethod
     def search_job(keyword):
         s('#keyword-input').set_value(keyword).press_enter()
@@ -29,7 +28,7 @@ class FreelancerSearchPage(object):
         return jobs_el
 
     @staticmethod
-    def get_jobs_from_page(jobs_el):
+    def get_jobs_from_page(jobs_el, keyword):
         jobs_info = []
 
         for job in jobs_el:
@@ -59,11 +58,12 @@ class FreelancerSearchPage(object):
             days = job.s(FreelancercomLocators.JOB_DAYS).text
 
             jobs_info.append(collections.OrderedDict({'title': title,
-                              'description': description,
-                              'price': price,
-                              'bids': bids,
-                              'link': link,
-                              'days': days}))
+                                                      'description': description,
+                                                      'price': price,
+                                                      'bids': bids,
+                                                      'link': link,
+                                                      'days': days,
+                                                      'keyword': keyword}))
         return jobs_info
 
     @staticmethod

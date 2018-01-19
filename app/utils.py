@@ -8,7 +8,7 @@ from slacker import Slacker
 
 XLSX_FILE_NAME = "results.xlsx"
 CSV_FILE_NAME = "results.csv"
-DIR_NAME = "tests\_test_results"
+DIR_NAME = "tests/_test_results"
 logger = logging.getLogger(__name__)
 
 
