@@ -5,9 +5,12 @@ from selene.api import *
 from app.upwork import *
 from selene import config
 
+CSV_FILE_NAME = "upwork_results.csv" 
+XLSX_FILE_NAME = "upwork_results.xlsx"
+
 
 class TestsUpwork(object):
-    @pytest.mark.jenkins
+    @pytest.mark.run_upwork
     @pytest.mark.parametrize('keyword', ['Selenium', 'Scraping'])
     def test_send_new_jobs_to_slack(self, wd, keyword):
         config.base_url = 'https://www.upwork.com/o/jobs/browse/'
@@ -23,7 +26,7 @@ class TestsUpwork(object):
             if price:
                 price = price[0].text
             else:
-                price = None
+                price = "N/A"
             link = job.s(UpworkLocators.JOB_TITLE).get_attribute('href')
             posted = job.s(UpworkLocators.JOB_POSTED).text
 
@@ -31,10 +34,11 @@ class TestsUpwork(object):
                                  'description': description,
                                  'price': price,
                                  'link': link,
-                                 'posted': posted})
+                                 'posted': posted,
+                                 'keyword': keyword})
 
-        Utils.send_results_to_slack('jobs', jobs_results)
-        Utils.write_csv(jobs_results)
+        Utils.send_results_to_slack(channel='jobs', results=jobs_results, file_name=CSV_FILE_NAME)
+        Utils.write_csv(jobs_results, file_name=CSV_FILE_NAME)
 
 
 if __name__ == '__main__':

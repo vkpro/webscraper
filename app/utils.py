@@ -49,7 +49,7 @@ class Utils(object):
     # TODO: Merge write methods
     # TODO: DO not add existing title to file 
     @staticmethod
-    def write_csv(data, file_name=CSV_FILE_NAME, dir_name=DIR_NAME):
+    def write_csv(data, file_name, dir_name=DIR_NAME):
         if not data:
             logger.info("Nothing write to csv-file")
             return None
@@ -93,7 +93,7 @@ class Utils(object):
         logger.info("File {} saved".format(filepath))
 
     @staticmethod
-    def send_results_to_slack(channel='jobs', results=None, file_name=None):
+    def send_results_to_slack(results, file_name, channel='jobs'):
         msg = ""
         for result in results:
             # Don't add duplicates
