@@ -51,7 +51,7 @@ class WdListener(AbstractEventListener):
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="chrome", help="browser type")
+    parser.addoption("--browser", action="store", default="firefox", help="browser type")
     parser.addoption("--remote_wd", action="store", default="http://127.0.0.1:4444/wd/hub", help="remote server URL")
 
 

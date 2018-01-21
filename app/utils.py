@@ -105,6 +105,7 @@ class Utils(object):
                     msg += "\n *{k}: {v}*".format(k=k, v=v)
                 else:
                     msg += "\n {k}: {v}".format(k=k, v=v)
+            msg += "\n"
         if msg:
             Utils.send_msg_to_slack(channel, msg)
         else:

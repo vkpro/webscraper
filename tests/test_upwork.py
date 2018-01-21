@@ -37,7 +37,7 @@ class TestsUpwork(object):
                                  'posted': posted,
                                  'keyword': keyword})
 
-        Utils.send_results_to_slack(channel='jobs', results=jobs_results, file_name=CSV_FILE_NAME)
+        Utils.send_results_to_slack(channel='job-upwork', results=jobs_results, file_name=CSV_FILE_NAME)
         Utils.write_csv(jobs_results, file_name=CSV_FILE_NAME)
 
 
