@@ -59,6 +59,8 @@ class FreelancerSearchPage(object):
             job_info['link'] = job.s(FreelancercomLocators.JOB_LINK).get_attribute('href')
             job_info['days'] = job.s(FreelancercomLocators.JOB_DAYS).text
 
+            job_info['keyword'] = keyword
+
             jobs_info.append(job_info)
 
         return jobs_info

@@ -1,7 +1,6 @@
 import logging
 import os
 import logging.config
-
 import pytest
 import json
 from selene import browser
@@ -55,19 +54,19 @@ def pytest_addoption(parser):
     parser.addoption("--remote_wd", action="store", default="http://127.0.0.1:4444/wd/hub", help="remote server URL")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def browser_type(request):
     """Browser type to run"""
     return request.config.getoption("--browser")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def remote_wd(request):
     """URL of remote wd e.g. http://127.0.0.1:4444/wd/hub"""
     return request.config.getoption("--remote_wd")
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def wd(request, browser_type, remote_wd):
     """Webdriver object"""
 

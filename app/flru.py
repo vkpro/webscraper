@@ -1,6 +1,5 @@
+import collections
 from selene.api import *
-from selene.browser import open_url
-from selenium.webdriver.common.by import By
 import logging
 from time import sleep
 
@@ -41,28 +40,28 @@ class FlruSearchPage(object):
                 else:
                     return 'N/A'
 
+            job_info = collections.OrderedDict()
+
             title = job.ss(FlruLocators.JOB_TITLE)
-            title = get_text(title)
+            job_info['title'] = get_text(title)
             logging.debug('Title: {}'.format(title))
 
             description = job.ss(FlruLocators.JOB_DESCRIPTION)
-            description = get_text(description)
+            job_info['description'] = get_text(description)
             logging.debug('Description: {}'.format(description))
 
             price = job.ss(FlruLocators.JOB_PRICE)
-            price = get_text(price)
+            job_info['price'] = get_text(price)
 
             bids = job.ss(FlruLocators.JOB_BIDS)
-            bids = get_text(bids)
+            job_info['bids'] = get_text(bids)
 
-            link = job.s(FlruLocators.JOB_TITLE).get_attribute('href')
+            job_info['link'] = job.s(FlruLocators.JOB_TITLE).get_attribute('href')
 
-            jobs_info.append({'title': title,
-                              'description': description,
-                              'price': price,
-                              'bids': bids,
-                              'link': link,
-                              'keyword': keyword})
+            job_info['keyword'] = keyword
+
+            jobs_info.append(job_info)
+
         return jobs_info
 
     @staticmethod
