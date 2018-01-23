@@ -40,30 +40,27 @@ class FreelancerSearchPage(object):
                 else:
                     return None
 
+            job_info = collections.OrderedDict()
+
             title = job.ss(FreelancercomLocators.JOB_TITLE)
-            title = get_text(title)
-            logging.debug('Title: {}'.format(title))
+            job_info['title'] = get_text(title)
+            logging.debug('Title: {}'.format(job_info['title']))
 
             description = job.ss(FreelancercomLocators.JOB_DESCRIPTION)
-            description = get_text(description)
-            logging.debug('Description: {}'.format(description))
+            job_info['description'] = get_text(description)
+            logging.debug('Description: {}'.format(job_info['description']))
 
             price = job.ss(FreelancercomLocators.JOB_PRICE)
-            price = get_text(price)
+            job_info['price'] = get_text(price)
 
             bids = job.ss(FreelancercomLocators.JOB_BIDS)
-            bids = get_text(bids)
+            job_info['bids'] = get_text(bids)
 
-            link = job.s(FreelancercomLocators.JOB_LINK).get_attribute('href')
-            days = job.s(FreelancercomLocators.JOB_DAYS).text
+            job_info['link'] = job.s(FreelancercomLocators.JOB_LINK).get_attribute('href')
+            job_info['days'] = job.s(FreelancercomLocators.JOB_DAYS).text
 
-            jobs_info.append(collections.OrderedDict({'title': title,
-                                                      'description': description,
-                                                      'price': price,
-                                                      'bids': bids,
-                                                      'link': link,
-                                                      'days': days,
-                                                      'keyword': keyword}))
+            jobs_info.append(job_info)
+
         return jobs_info
 
     @staticmethod
