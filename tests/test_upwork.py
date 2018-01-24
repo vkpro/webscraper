@@ -12,7 +12,7 @@ XLSX_FILE_NAME = "upwork_results.xlsx"
 
 class TestsUpwork(object):
     @pytest.mark.run_upwork
-    @pytest.mark.parametrize('keyword', ['Selenium', 'Scraping' ])
+    @pytest.mark.parametrize('keyword', ['Scraping',])
     def test_send_new_jobs_to_slack(self, wd, keyword):
         config.base_url = 'https://www.upwork.com/o/jobs/browse/'
         open_url('?q={_keyword}'.format(_keyword=keyword))
