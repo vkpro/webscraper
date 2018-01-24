@@ -116,6 +116,7 @@ def wd(request, browser_type, remote_wd):
     logger.info("Browser {} started".format(browser_type))
     wd.set_window_size(1280, 1024)
     logger.info("Set window size 1280x1024")
+    wd.delete_all_cookies()
 
     def fin():
         browser.quit()
