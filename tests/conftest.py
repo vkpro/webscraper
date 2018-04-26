@@ -11,7 +11,6 @@ from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEven
 def setup_logging(default_path='logging.json', default_level=logging.INFO, env_key='LOG_CFG'):
     """Setup logging configuration
     """
-    # TODO: Clean up log system
     path = default_path
     value = os.getenv(env_key, None)
     if value:
@@ -71,7 +70,7 @@ def wd(request, browser_type, remote_wd):
     """Webdriver object"""
 
     if browser_type == "firefox":
-        wd = webdriver.Firefox()
+        wd = webdriver.Firefox(log_path="logs/geckodriver.log")
     elif browser_type == "chrome":
         wd = webdriver.Chrome()
     elif browser_type == "chrome-nogui":
