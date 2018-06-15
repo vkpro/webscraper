@@ -3,7 +3,7 @@ import os
 import logging.config
 import pytest
 import json
-from selene import browser
+from selene import browser, config
 from selenium import webdriver
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
 
@@ -116,12 +116,14 @@ def wd(request, browser_type, remote_wd):
     wd.set_window_size(1280, 1024)
     logger.info("Set window size 1280x1024")
     wd.delete_all_cookies()
+    config.reports_folder = "logs/screenshots"
 
     def fin():
         browser.quit()
 
     request.addfinalizer(fin)
     browser.set_driver(wd)
+
 
 setup_logging()
 logger = logging.getLogger(__name__)

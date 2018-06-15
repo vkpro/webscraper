@@ -17,7 +17,7 @@ class Utils(object):
     def send_msg_to_slack(_channel=None, _msg=''):
         slack_token = os.getenv("SLACK_TOKEN")
         if not slack_token:
-            return "SLACK_TOKEN not defined"
+            logger.warning("SLACK_TOKEN is not defined in env variable. Skip Slack notification")
 
         slack = Slacker(slack_token)
         slack.chat.post_message(_channel, str(_msg))

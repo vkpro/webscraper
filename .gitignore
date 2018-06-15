@@ -9,6 +9,7 @@
 *.pyc
 *.cache
 .cache
+.pytest_cache
 
 # Packages #
 ############
@@ -47,6 +48,6 @@ tmtagsHistory
 *.csv
 *.xlsx
 test_tmp.py
-venv.bat
+venv*
 tmp
 screens
